@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.BindingContextLostPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:BindingContextLostPageViewModel"
+    BackgroundColor="#FF444444">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="18">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="Keep your BindingContext leash from snapping mid-session with focused examples."
+                        TextColor="#A3A1E5" />
+
+                    <Border
+                        Margin="0,0,0,20"
+                        Padding="18"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="18"
+                                Text="Modal Popover (x:Reference)"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Toggle the popover. The inner view explicitly sets its BindingContext to the page root so it never loses the context."
+                                TextColor="#FF111111" />
+                            <Button
+                                Command="{Binding TogglePopoverVisibilityCommand}"
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Toggle shared context popover" />
+
+                            <Border
+                                Padding="12"
+                                BackgroundColor="#cffafe"
+                                IsVisible="{Binding IsSignalVisible}">
+                                <Border.BindingContext>
+                                    <Binding Path="BindingContext" Source="{x:Reference PageRoot}" />
+                                </Border.BindingContext>
+                                <VerticalStackLayout Spacing="6">
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding ActiveSet.Name, StringFormat='Set: {0}'}"
+                                        TextColor="#0f172a" />
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding ActiveSet.Condition, StringFormat='Condition: {0}'}"
+                                        TextColor="#0f172a" />
+                                    <Label
+                                        FontAttributes="Italic"
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding ModalMessage}"
+                                        TextColor="#0f172a" />
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding PopoverAttachCount, StringFormat='Attach count: {0}'}"
+                                        TextColor="#0f172a" />
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="12"
+                                        Text="{Binding Source={x:RelativeSource Mode=Self}, Path=BindingContext, StringFormat='Context Type: {0}'}"
+                                        TextColor="#0f172a" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,20"
+                        Padding="18"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="18"
+                                Text="CollectionView item template"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Each item shows its own data. Shuffle readings to demonstrate templates updating without losing context."
+                                TextColor="#FF111111" />
+                            <Button
+                                Clicked="Button_Clicked"
+                                Command="{Binding ShuffleReadingsCommand}"
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Shuffle wave readings" />
+                            <CollectionView ItemsSource="{Binding WaveReadings}" SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:WaveReading">
+                                        <Border
+                                            Padding="12"
+                                            BackgroundColor="#ffffff"
+                                            Stroke="#0e7490">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12" />
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="4">
+                                                <!--  FIX: Use RelativeSource to access parent page's Title property  -->
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontFamily="OpenSansRegular"
+                                                    FontSize="14"
+                                                    Text="{Binding Path=BindingContext.ActiveSet.Name, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                    TextColor="#0f172a" />
+                                                <Label
+                                                    FontFamily="OpenSansRegular"
+                                                    FontSize="14"
+                                                    Text="{Binding Height, StringFormat='Height: {0:F1} ft'}"
+                                                    TextColor="#0f172a" />
+                                                <Label
+                                                    FontFamily="OpenSansRegular"
+                                                    FontSize="12"
+                                                    Text="{Binding LastUpdated, StringFormat='Updated: {0:HH:mm:ss}'}"
+                                                    TextColor="#0f172a" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="{Binding TemplateAttachCount, StringFormat='Template refresh count: {0}'}"
+                                TextColor="#FF111111" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,102 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
+artifacts/
+Debug/
+Release/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.userprefs
+*.csproj.user
+
+# IDE
+.vs/
+.vscode/
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+# Package restore/cache
+**/project.lock.json
+**/project.fragment.lock.json
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# .NET generated
+Generated Files/
+
+# MAUI / mobile artifacts
+# Android
+*.apk
+*.ap_*
+*.aab
+*.jks
+*.keystore*
+
+# iOS / Mac build artifacts
+*.ipa
+*.dSYM
+**/DerivedData/
+*.xcworkspace/
+*.xcuserstate
+*.xcuserdatad
+*.xcsettings
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.mobileprovision
+*.provisionprofile
+
+# Windows packaging artifacts
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+TestPackages/
+*.appx
+*.appxbundle
+*.appxupload
+*.appxsym
+*.msix
+*.msixbundle
+*.msixupload
+*.msixsym
+
+# Tooling
+/.terraform/
+
+# Rider / cache
+/.idea/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Node toolchains used by build tasks
+node_modules/
+
+# JetBrains cache
+/.cache/
+
+# Secrets and keys (do not commit signing or cert files)
+*.pfx
+*.snk
+*.pem
+*.crt
+*.cer
+*.key

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.VisualStateStallPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:XAMLDebuggingTechniques.Converters"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:VisualStateStallPageViewModel"
+    BackgroundColor="#FF444444">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:WaveHeightToColorConverter x:Key="WaveHeightToColor" />
+            <converters:WaveHeightToBorderThicknessConverter x:Key="WaveHeightToBorderThickness" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="18">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="When VisualStateManager bogs, compare it with converter-driven bindings to decide your fix."
+                        TextColor="#A3A1E5" />
+
+                    <Border
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <Grid RowSpacing="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="State Machine"
+                                TextColor="#FFEFEFEF" />
+                            <Grid Grid.Row="1" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                                    x:Name="StateCard"
+                                    Padding="16"
+                                    BackgroundColor="#bae6fd"
+                                    StrokeThickness="0">
+                                    <VerticalStackLayout Spacing="6">
+                                        <Label
+                                            FontFamily="OpenSansRegular"
+                                            FontSize="18"
+                                            Text="{Binding WaveHeight, StringFormat='Wave: {0:F1} ft'}"
+                                            TextColor="#0f172a" />
+                                        <Label
+                                            x:Name="StateCaption"
+                                            FontFamily="OpenSansRegular"
+                                            FontSize="28"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Calm"
+                                            TextColor="#0f172a" />
+                                    </VerticalStackLayout>
+                                </Border>
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="6"
+                                    WidthRequest="140">
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="States enabled?"
+                                        TextColor="#FF111111" />
+                                    <Switch IsToggled="{Binding AreStatesEnabled}" />
+                                    <Button
+                                        Command="{Binding RandomizeWaveCommand}"
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="Randomize" />
+                                    <Button
+                                        Command="{Binding ResetWaveCommand}"
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="Reset" />
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Slider
+                                Grid.Row="2"
+                                Maximum="12"
+                                Minimum="0"
+                                Value="{Binding WaveHeight}" />
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState Name="Calm">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding IsCalmState}" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter TargetName="StateCard" Property="Border.BackgroundColor" Value="#bae6fd" />
+                                        <Setter TargetName="StateCaption" Property="Label.Text" Value="Calm" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="Fun">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding IsFunState}" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter TargetName="StateCard" Property="Border.BackgroundColor" Value="#fed7aa" />
+                                        <Setter TargetName="StateCaption" Property="Label.Text" Value="Fun" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState Name="XL">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding IsXlState}" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter TargetName="StateCard" Property="Border.BackgroundColor" Value="#fecaca" />
+                                        <Setter TargetName="StateCaption" Property="Label.Text" Value="XL" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+
+                    <Border
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Converter Alternative"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Same data, no VisualState. Converters drive color + border thickness so you can still diagnose issues if VSM stalls."
+                                TextColor="#FF111111" />
+                            <Border
+                                Padding="16"
+                                BackgroundColor="{Binding WaveHeight, Converter={StaticResource WaveHeightToColor}}"
+                                Stroke="Black"
+                                StrokeThickness="{Binding WaveHeight, Converter={StaticResource WaveHeightToBorderThickness}}">
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding WaveHeight, StringFormat='Wave Height: {0:F1}'}"
+                                        TextColor="#0f172a" />
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding WaveHeight, Converter={StaticResource WaveHeightToBorderThickness}, StringFormat='Stroke: {0:F1}'}"
+                                        TextColor="#0f172a" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

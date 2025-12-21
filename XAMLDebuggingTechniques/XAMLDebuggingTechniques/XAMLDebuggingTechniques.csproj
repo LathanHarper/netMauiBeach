@@ -1,0 +1,179 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>XAMLDebuggingTechniques</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<MauiVersion>10.0.0</MauiVersion>
+		<!--<PlatformTarget>AnyCPU</PlatformTarget>-->
+
+		<!-- Display name -->
+		<ApplicationTitle>XAMLDebuggingTechniques</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.XAMLDebuggingTechniques</ApplicationId>
+		
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<WindowsPackageType>None</WindowsPackageType>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+		<!-- Required for Windows unpackaged builds so the correct runtime pack is restored -->
+		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+		<UseRidGraph>true</UseRidGraph>
+		<OutputType>WinExe</OutputType>
+		<UseMonoRuntime>false</UseMonoRuntime>
+	</PropertyGroup>
+
+	<!-- Removed Windows-specific RID/SelfContained and packaging overrides to match default template behavior -->
+	<!--<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.19041.0'">
+
+		
+		
+		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+		<UseRidGraph>true</UseRidGraph>
+	</PropertyGroup>-->
+	<ItemGroup>
+		<!-- App Icon -->
+		<!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <AndroidResource Remove="ViewModels\**" />
+	  <AndroidResource Remove="Views\**" />
+	  <Compile Remove="ViewModels\**" />
+	  <Compile Remove="Views\**" />
+	  <EmbeddedResource Remove="ViewModels\**" />
+	  <EmbeddedResource Remove="Views\**" />
+	  <MauiCss Remove="ViewModels\**" />
+	  <MauiCss Remove="Views\**" />
+	  <MauiXaml Remove="ViewModels\**" />
+	  <MauiXaml Remove="Views\**" />
+	  <None Remove="ViewModels\**" />
+	  <None Remove="Views\**" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Remove="Resources\AppIcon\appicon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<!--<PackageReference Include="Microsoft.Extensions.Logging.Debug" />-->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+		<PackageReference Include="Prism.DryIoc.Maui" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />
+		<!-- EF Core + SQLite -->
+		<!--<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="Linker\efcore.trimmer.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Pages\MainPageViewModel.cs">
+			<DependentUpon>MainPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\SampleLauncherPageViewModel.cs">
+			<DependentUpon>SampleLauncherPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\BindingBasicsPageViewModel.cs">
+			<DependentUpon>BindingBasicsPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\BindingContextLostPageViewModel.cs">
+			<DependentUpon>BindingContextLostPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\MissingConverterPageViewModel.cs">
+			<DependentUpon>MissingConverterPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\NavigationFailPageViewModel.cs">
+			<DependentUpon>NavigationFailPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\VisualStateStallPageViewModel.cs">
+			<DependentUpon>VisualStateStallPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\TemplateBindingMysteryPageViewModel.cs">
+			<DependentUpon>TemplateBindingMysteryPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\ControlSwapLabPageViewModel.cs">
+			<DependentUpon>ControlSwapLabPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\DebugOverlayDemoPageViewModel.cs">
+			<DependentUpon>DebugOverlayDemoPage.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Converters\" />
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\BindingBasicsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\BindingContextLostPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ControlSwapLabPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\DebugOverlayDemoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\MissingConverterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\NavigationFailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SampleLauncherPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TemplateBindingMysteryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\VisualStateStallPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\SemanticColors.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+</Project>

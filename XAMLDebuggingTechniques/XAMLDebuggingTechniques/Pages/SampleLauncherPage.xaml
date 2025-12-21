@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.SampleLauncherPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:SampleLauncherPageViewModel">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Grid.Row="1"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <Grid
+                    Margin="0,0,0,0"
+                    Padding="20,20,20,20"
+                    RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Headline  -->
+                    <Label
+                        Grid.Row="0"
+                        Margin="0,0,0,10"
+                        Padding="0,0,0,0"
+                        BackgroundColor="Transparent"
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        SemanticProperties.HeadingLevel="Level1"
+                        Text="{Binding Title}"
+                        TextColor="White" />
+
+                    <!--  SubHeadline  -->
+                    <Label
+                        Grid.Row="1"
+                        Margin="0,0,0,20"
+                        Padding="0,0,0,0"
+                        BackgroundColor="Transparent"
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Pick your flavor - each demo shows a common XAML debugging scenario"
+                        TextColor="#C8C8C8" />
+
+                    <!--  CollectionView grid of sample buttons  -->
+                    <CollectionView
+                        Grid.Row="2"
+                        ItemsSource="{Binding Samples}"
+                        SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:SampleItem">
+                                <Border
+                                    Margin="0,0,0,0"
+                                    Padding="0,0,0,0"
+                                    BackgroundColor="#2b2b2b"
+                                    Stroke="#404040"
+                                    StrokeThickness="1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                    <Grid
+                                        Margin="0,0,0,0"
+                                        Padding="16,12,16,12"
+                                        RowSpacing="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SampleLauncherPageViewModel}}, Path=NavigateCommand}" CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+
+                                        <Label
+                                            Grid.Row="0"
+                                            Margin="0,0,0,0"
+                                            Padding="0,0,0,0"
+                                            FontAttributes="Bold"
+                                            FontFamily="OpenSansRegular"
+                                            FontSize="20"
+                                            Text="{Binding Title}"
+                                            TextColor="White" />
+
+                                        <Label
+                                            Grid.Row="1"
+                                            Margin="0,0,0,0"
+                                            Padding="0,0,0,0"
+                                            FontFamily="OpenSansRegular"
+                                            FontSize="14"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding Description}"
+                                            TextColor="#C8C8C8" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </Grid>
+
+</ContentPage>

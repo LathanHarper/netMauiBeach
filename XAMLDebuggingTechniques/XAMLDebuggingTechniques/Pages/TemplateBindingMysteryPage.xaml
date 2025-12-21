@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.TemplateBindingMysteryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:XAMLDebuggingTechniques.Controls"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:TemplateBindingMysteryPageViewModel"
+    BackgroundColor="#FF444444">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="SurfTemplate" x:DataType="controls:SurfTemplateCard">
+                <Border
+                    Padding="20"
+                    BackgroundColor="#33f8fafc"
+                    Stroke="#A5A3Fb">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="24" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <Label
+                            FontFamily="OpenSansRegular"
+                            FontSize="36"
+                            Text="{TemplateBinding Icon}" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="OpenSansRegular"
+                            FontSize="22"
+                            Text="{TemplateBinding Title}"
+                            TextColor="#FFEFEFEF" />
+                        <Label
+                            FontFamily="OpenSansRegular"
+                            FontSize="14"
+                            Text="{TemplateBinding Subtitle}"
+                            TextColor="#FF111111" />
+                    </VerticalStackLayout>
+                </Border>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="RelativeTemplate" x:DataType="controls:SurfTemplateCard">
+                <Border
+                    Padding="20"
+                    BackgroundColor="#33f8fafc"
+                    Stroke="#A5A3Fb">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="24" />
+                    </Border.StrokeShape>
+                    <Grid RowSpacing="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            FontFamily="OpenSansRegular"
+                            FontSize="32"
+                            Text="{TemplateBinding Icon}" />
+                        <Label
+                            Grid.Row="1"
+                            FontAttributes="Bold"
+                            FontFamily="OpenSansRegular"
+                            FontSize="22"
+                            Text="{TemplateBinding Title}"
+                            TextColor="#FFEFEFEF" />
+                        <Label
+                            Grid.Row="2"
+                            FontFamily="OpenSansRegular"
+                            FontSize="14"
+                            Text="{TemplateBinding Subtitle}"
+                            TextColor="#FF111111" />
+                        <Label
+                            Grid.Row="3"
+                            FontFamily="OpenSansRegular"
+                            FontSize="12"
+                            Text="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TemplateFacts}"
+                            TextColor="#FF111111" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="18">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="TemplateBinding reads properties directly from the templated control. RelativeSource can hop up to the page's BindingContext when you need shared context."
+                        TextColor="#A3A1E5" />
+
+                    <controls:SurfTemplateCard
+                        Title="{Binding SurfCard.Title}"
+                        ControlTemplate="{StaticResource SurfTemplate}"
+                        Icon="{Binding SurfCard.Icon}"
+                        Subtitle="{Binding SurfCard.Subtitle}" />
+
+                    <controls:SurfTemplateCard
+                        Title="{Binding LifeguardCard.Title}"
+                        ControlTemplate="{StaticResource RelativeTemplate}"
+                        Icon="{Binding LifeguardCard.Icon}"
+                        Subtitle="{Binding LifeguardCard.Subtitle}" />
+
+                    <Border
+                        Padding="12"
+                        BackgroundColor="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Label
+                            FontFamily="OpenSansRegular"
+                            FontSize="14"
+                            Text="{Binding TemplateFacts}"
+                            TextColor="#FF111111" />
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

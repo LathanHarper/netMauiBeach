@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.MissingConverterPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:XAMLDebuggingTechniques.Converters"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:MissingConverterPageViewModel"
+    BackgroundColor="#FF444444">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SurfBoolToColorConverter
+                x:Key="SurfBoolToColor"
+                FalseColor="#1e293b"
+                TrueColor="#22c55e" />
+            <converters:WaveRatingToGlyphConverter x:Key="WaveRatingToGlyph" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="18">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="Silent type mismatches? No stoke. Use converters to map the lagoon to the property you need."
+                        TextColor="#A3A1E5" />
+
+                    <Border
+                        Margin="0,0,0,18"
+                        Padding="18"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Bool -&gt; Color (demo)"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Toggle shows how a bool can drive visual color via a converter."
+                                TextColor="#FF111111" />
+                            <Grid Padding="0,6" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Switch Grid.Column="0" IsToggled="{Binding IsSurfReportClean}" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Text="{Binding IsSurfReportClean, StringFormat='Is clean? {0}'}"
+                                    TextColor="#FF111111" />
+                            </Grid>
+                            <Border
+                                Padding="16"
+                                BackgroundColor="{Binding IsSurfReportClean, Converter={StaticResource SurfBoolToColor}}"
+                                StrokeThickness="0">
+                                <Label
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding IsSurfReportClean, StringFormat='Converter output: {0}'}"
+                                    TextColor="White" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,18"
+                        Padding="18"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Enum -&gt; Glyph (backup converter)"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Picker selects a WaveRating and converter maps it to an icon text."
+                                TextColor="#FF111111" />
+                            <Picker
+                                Title="Select the vibe"
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                HorizontalOptions="Fill"
+                                ItemDisplayBinding="{Binding .}"
+                                ItemsSource="{Binding Ratings}"
+                                SelectedItem="{Binding SelectedRating}" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="48"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding SelectedRating, Converter={StaticResource WaveRatingToGlyph}}" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding SelectedRating, StringFormat='Enum value: {0}'}"
+                                TextColor="#FF111111" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="12"
+                        Text="Tip: If a binding results in raw types (True/False) instead of the expected visual, add an IValueConverter. You can intentionally remove one converter to show a broken binding while the other continues to work."
+                        TextColor="#6b7280" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

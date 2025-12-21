@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/SpeakMe/">
+    <File Path="ShowTimeCards.html" />
+  </Folder>
   <Project Path="XAMLDebuggingTechniques/XAMLDebuggingTechniques.csproj">
     <Deploy Solution="Debug|*" />
   </Project>

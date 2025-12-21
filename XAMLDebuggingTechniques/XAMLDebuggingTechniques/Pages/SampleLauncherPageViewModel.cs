@@ -45,6 +45,7 @@ namespace XAMLDebuggingTechniques.ViewModels
             if (sample == null) return;
             try
             {
+                //Fred Navigate
                 var retval = await _navigationService.NavigateAsync(sample.NavigationKey);
                 if (!retval.Success)
                 {

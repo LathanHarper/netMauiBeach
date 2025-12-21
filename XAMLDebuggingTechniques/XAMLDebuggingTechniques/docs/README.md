@@ -1,5 +1,5 @@
 # XAMLDebuggingTechniques – Template Guide
-Your Milage may vary...
+
 Small, fast, and salted for real surf: .NET MAUI + Prism MVVM + EF Core (SQLite + SQLCipher), hardened startup, trimming-safe, and ready for migrations.
 
 ## 1) Stack Overview

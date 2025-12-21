@@ -75,7 +75,9 @@
                             <LinearItemsLayout ItemSpacing="12" Orientation="Vertical" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:SampleItem">
+                            <DataTemplate 
+                                x:DataType="viewmodels:SampleItem"
+                                          >
                                 <Border
                                     Margin="0,0,0,0"
                                     Padding="0,0,0,0"

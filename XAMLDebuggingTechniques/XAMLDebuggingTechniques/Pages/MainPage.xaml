@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:MainPageViewModel">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <Grid
+                    Margin="0,0,0,0"
+                    Padding="0,0,0,0"
+                    RowSpacing="25">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Image
+                        Grid.Row="0"
+                        Margin="0,0,0,0"
+                        Aspect="AspectFit"
+                        HeightRequest="185"
+                        SemanticProperties.Description="dot net bot in a submarine number ten"
+                        Source="dotnet_bot.png" />
+
+                    <!--  Headline inline  -->
+                    <Label
+                        Grid.Row="1"
+                        Margin="0,0,0,0"
+                        Padding="0,0,0,0"
+                        BackgroundColor="Transparent"
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        SemanticProperties.HeadingLevel="Level1"
+                        Text="Hello, World!"
+                        TextColor="White" />
+
+                    <!--  SubHeadline inline  -->
+                    <Label
+                        Grid.Row="2"
+                        Margin="0,0,0,0"
+                        Padding="0,0,0,0"
+                        BackgroundColor="Transparent"
+                        FontFamily="OpenSansRegular"
+                        FontSize="24"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                        SemanticProperties.HeadingLevel="Level2"
+                        Text="Welcome to &#10;.NET Multi-platform App UI"
+                        TextColor="White" />
+
+                    <!--  Button inline styles reused  -->
+                    <Button
+                        Grid.Row="3"
+                        Margin="0,0,0,0"
+                        Padding="14,10,14,10"
+                        BackgroundColor="#ac99ea"
+                        BorderWidth="0"
+                        Command="{Binding SeedCommand}"
+                        CornerRadius="8"
+                        FontFamily="OpenSansRegular"
+                        FontSize="14"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="44"
+                        MinimumWidthRequest="44"
+                        Text="Seed DB"
+                        TextColor="#242424">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="#C8C8C8" />
+                                        <Setter Property="BackgroundColor" Value="#404040" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+
+                    <Button
+                        Grid.Row="4"
+                        Margin="0,0,0,0"
+                        Padding="14,10,14,10"
+                        BackgroundColor="#ac99ea"
+                        BorderWidth="0"
+                        Command="{Binding ReadCommand}"
+                        CornerRadius="8"
+                        FontFamily="OpenSansRegular"
+                        FontSize="14"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="44"
+                        MinimumWidthRequest="44"
+                        Text="Read DB"
+                        TextColor="#242424">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="#C8C8C8" />
+                                        <Setter Property="BackgroundColor" Value="#404040" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+
+                    <Button
+                        Grid.Row="5"
+                        Margin="0,0,0,0"
+                        Padding="14,10,14,10"
+                        BackgroundColor="#ac99ea"
+                        BorderWidth="0"
+                        Command="{Binding VerifyEncryptionCommand}"
+                        CornerRadius="8"
+                        FontFamily="OpenSansRegular"
+                        FontSize="14"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="44"
+                        MinimumWidthRequest="44"
+                        Text="Verify DB"
+                        TextColor="#242424">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="#C8C8C8" />
+                                        <Setter Property="BackgroundColor" Value="#404040" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+
+                    <Button
+                        Grid.Row="6"
+                        Margin="0,0,0,0"
+                        Padding="14,10,14,10"
+                        BackgroundColor="#ac99ea"
+                        BorderWidth="0"
+                        Command="{Binding WipeAndRecreateEncryptedCommand}"
+                        CornerRadius="8"
+                        FontFamily="OpenSansRegular"
+                        FontSize="14"
+                        HorizontalOptions="Fill"
+                        MinimumHeightRequest="44"
+                        MinimumWidthRequest="44"
+                        Text="Wipe DB"
+                        TextColor="#242424">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Property="TextColor" Value="#C8C8C8" />
+                                        <Setter Property="BackgroundColor" Value="#404040" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
+
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </Grid>
+
+</ContentPage>

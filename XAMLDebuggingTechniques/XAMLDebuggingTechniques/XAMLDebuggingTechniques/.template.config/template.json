@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "WestSideSurfShack",
+  "classifications": ["MAUI", "Prism", "EF Core", "SQLCipher", ".NET 10"],
+  "identity": "WestSide.MAUI.Prism.SqlCipher",
+  "name": "MAUI + Prism + EF (SQLCipher) – Hardened",
+  "shortName": "maui-prism-sqlcipher",
+  "sourceName": "MAUI10Prism10SQLiteStack",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "appId": {
+      "type": "parameter",
+      "datatype": "text",
+      "defaultValue": "com.companyname.MyMauiApp",
+      "replaces": "com.companyname.MAUI10Prism10SQLiteStack",
+      "description": "ApplicationId (Android package id / iOS bundle id)"
+    },
+    "displayName": {
+      "type": "parameter",
+      "datatype": "text",
+      "defaultValue": "My Maui App",
+      "replaces": "MAUI10Prism10SQLiteStack",
+      "description": "Application title"
+    },
+    "dbFileName": {
+      "type": "parameter",
+      "datatype": "text",
+      "defaultValue": "app.db",
+      "replaces": "app.db",
+      "description": "SQLite database filename"
+    },
+    "defaultCulture": {
+      "type": "parameter",
+      "datatype": "text",
+      "defaultValue": "en-US",
+      "replaces": "en-US",
+      "description": "Default culture"
+    },
+    "initialRoute": {
+      "type": "parameter",
+      "datatype": "text",
+      "defaultValue": "NavigationPage/MainPage",
+      "replaces": "NavigationPage/MainPage",
+      "description": "Initial navigation route"
+    },
+    "useCompiledModel": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "description": "Reference compiled EF model if available"
+    }
+  },
+  "primaryOutputs": [
+    { "path": "MAUI10Prism10SQLiteStack.csproj" }
+  ]
+}

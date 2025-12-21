@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.BindingBasicsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:BindingBasicsPageViewModel"
+    BackgroundColor="#FF444444">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="24">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Tune your leash before the big set hits: property paths, UpdateSourceEventName, and OneWay vs TwoWay flow."
+                        TextColor="#A3A1E5" />
+
+                    <Border
+                        Margin="0,0,0,18"
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Property Path Paddle Out"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Entry shares SurferName straight from BindingContext. Nested views show how deep the leash stretches, brah."
+                                TextColor="#FF111111" />
+                            <Entry
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Placeholder="Type the surfer cruising the lineup"
+                                Text="{Binding SurferName, Mode=TwoWay}" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="{Binding SurferName, StringFormat='Parent binding echoes: {0}'}"
+                                TextColor="#0f172a" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="{Binding ActiveSurfer.Name, StringFormat='Child context (ActiveSurfer.Name): {0}'}"
+                                TextColor="#0f172a" />
+                            <Border
+                                Padding="12"
+                                BackgroundColor="#c0D2De"
+                                StrokeShape="RoundRectangle 8"
+                                StrokeThickness="0">
+                                <Label
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Text="{Binding ActiveSurfer.Name}"
+                                    TextColor="#0c4a6e" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,18"
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="UpdateSourceEventName Drop-In"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Default Entry waits till focus leaves. The second one reports every keystroke  perfect to spot lagging bindings."
+                                TextColor="#FF111111" />
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="Default UpdateSourceEventName"
+                                        TextColor="#FF111111" />
+                                    <Entry
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Keyboard="Numeric"
+                                        Text="{Binding WaveCounter, Mode=TwoWay, UpdateSourceEventName=Unfocused}" />
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding WaveCounter, StringFormat='Coach reads after focus: {0} waves'}"
+                                        TextColor="#FF111111" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="PropertyChanged Update"
+                                        TextColor="#FF111111" />
+                                    <Entry
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Keyboard="Numeric"
+                                        Text="{Binding WaveCounter, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}" />
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding WaveCounter, StringFormat='Live keystroke feed: {0} waves'}"
+                                        TextColor="#FF111111" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,18"
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="OneWay vs TwoWay Tug-of-War"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Slider + Stepper push values TwoWay. Label + BoxView chill in OneWay land so you can flip values from code-behind and see who updates."
+                                TextColor="#FF111111" />
+                            <Grid ColumnSpacing="12" RowSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Text="Board length (ft)"
+                                    TextColor="#FF111111" />
+                                <Slider
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Maximum="9"
+                                    Minimum="5"
+                                    Value="{Binding BoardLengthFeet, Mode=TwoWay}" />
+                                <Stepper
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Increment="0.1"
+                                    Maximum="9"
+                                    Minimum="5"
+                                    Value="{Binding BoardLengthFeet, Mode=TwoWay}" />
+                                <VerticalStackLayout
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    Spacing="6">
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="{Binding BoardLengthFeet, Mode=OneWay, StringFormat='OneWay Label: {0:F1}'}"
+                                        TextColor="#FF111111" />
+                                    <BoxView
+                                        HeightRequest="40"
+                                        WidthRequest="40"
+                                        Color="#fde047">
+                                        <BoxView.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding BoardLengthFeet}"
+                                                TargetType="BoxView"
+                                                Value="7">
+                                                <Setter Property="Color" Value="#f97316" />
+                                            </DataTrigger>
+                                        </BoxView.Triggers>
+                                    </BoxView>
+                                    <Button
+                                        Command="{Binding CoachSetBoardCommand}"
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="Coach set to 7'0" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Margin="0,0,0,18"
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Binding Telemetry"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Keeps tabs on every binding path + value so future wipeouts are easy to replay."
+                                TextColor="#FF111111" />
+                            <CollectionView ItemsSource="{Binding BindingPulseEntries}" SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:BindingPulseRow">
+                                        <Grid Padding="0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Path}"
+                                                TextColor="#23B9F1" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Value}"
+                                                TextColor="#0f172a" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

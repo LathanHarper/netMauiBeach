@@ -1,0 +1,8 @@
+<linker>
+  <assembly fullname="XAMLDebuggingTechniques">
+    <!-- Keep DbContext and entities for reflection-based discovery used by EF -->
+    <type fullname="XAMLDebuggingTechniques.Data.AppDbContext" preserve="all" />
+    <type fullname="XAMLDebuggingTechniques.Data.TodoItem" preserve="all" />
+    <!-- If additional entities are added, ensure they are preserved or use a compiled model. -->
+  </assembly>
+</linker>

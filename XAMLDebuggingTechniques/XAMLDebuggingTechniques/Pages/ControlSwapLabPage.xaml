@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.ControlSwapLabPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:ControlSwapLabPageViewModel"
+    BackgroundColor="#FF444444">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="18">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="When bindings look jacked, swap in simpler controls. Pick a fin color + length to verify visual bindings on a list item template."
+                        TextColor="#A3A1E5" />
+
+                    <Border
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Fin Palette"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Tap a color to set the selected fin's color."
+                                TextColor="#FF111111" />
+
+                            <Grid Padding="6" ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    BackgroundColor="#ef4444"
+                                    Command="{Binding SetFinColorCommand}"
+                                    CommandParameter="#ef4444" />
+                                <Button
+                                    Grid.Column="1"
+                                    BackgroundColor="#f59e0b"
+                                    Command="{Binding SetFinColorCommand}"
+                                    CommandParameter="#f59e0b" />
+                                <Button
+                                    Grid.Column="2"
+                                    BackgroundColor="#10b981"
+                                    Command="{Binding SetFinColorCommand}"
+                                    CommandParameter="#10b981" />
+                                <Button
+                                    Grid.Column="3"
+                                    BackgroundColor="#0ea5e9"
+                                    Command="{Binding SetFinColorCommand}"
+                                    CommandParameter="#0ea5e9" />
+                            </Grid>
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="18"
+                                Text="Selected Fin"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Choose a fin from the list, then adjust color + length."
+                                TextColor="#FF111111" />
+
+                            <CollectionView
+                                ItemsSource="{Binding Fins}"
+                                SelectedItem="{Binding SelectedFin, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:SurfFin">
+                                        <Border
+                                            Padding="12"
+                                            BackgroundColor="{Binding FinColor}"
+                                            StrokeThickness="0">
+                                            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontFamily="OpenSansRegular"
+                                                    FontSize="14"
+                                                    Text="{Binding Position}"
+                                                    TextColor="White" />
+                                                <Label
+                                                    FontFamily="OpenSansRegular"
+                                                    FontSize="14"
+                                                    Text="{Binding Length, StringFormat='Length: {0:0.0} ft'}"
+                                                    TextColor="White" />
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="16"
+                                Text="Fin Length"
+                                TextColor="#FFEFEFEF" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="Move slider to change selected fin length."
+                                TextColor="#FF111111" />
+                            <Slider
+                                Maximum="12"
+                                Minimum="0"
+                                Value="{Binding SelectedFin.Length, Mode=TwoWay}" />
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!--  Bottom simple detector label - plain, no frills  -->
+                    <Grid>
+                        <Label
+                            FontFamily="OpenSansRegular"
+                            FontSize="14"
+                            Text="{Binding SelectedFin.Position, StringFormat='DetectorLabel: {0}'}"
+                            TextColor="#AAAAAA" />
+                    </Grid>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

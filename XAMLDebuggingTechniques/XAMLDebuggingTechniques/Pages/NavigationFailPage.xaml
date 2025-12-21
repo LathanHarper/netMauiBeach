@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.NavigationFailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:XAMLDebuggingTechniques.Converters"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:NavigationFailPageViewModel"
+    BackgroundColor="#FF444444">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SurfBoolToColorConverter
+                x:Key="BoolToColor"
+                FalseColor="#dc2626"
+                TrueColor="#16a34a" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <Grid
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    ColumnSpacing="18"
+                    RowSpacing="18">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <VerticalStackLayout Spacing="6">
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="32"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Title}"
+                                TextColor="#AAAAAA" />
+                            <Label
+                                FontFamily="OpenSansRegular"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                Text="Routes keep closing out? Run through this quick lineup check."
+                                TextColor="#A3A1E5" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Registered Routes"
+                                TextColor="#FFEFEFEF" />
+                            <CollectionView ItemsSource="{Binding KnownRoutes}" SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:RouteStatus">
+                                        <Grid Padding="0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Route}"
+                                                TextColor="#FF111111" />
+                                            <Label
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="12"
+                                                Text="{Binding Notes}"
+                                                TextColor="#FF111111" />
+                                            <Border
+                                                Grid.Column="2"
+                                                Padding="4,2"
+                                                BackgroundColor="{Binding IsRegistered, Converter={StaticResource BoolToColor}}"
+                                                StrokeThickness="0">
+                                                <Label
+                                                    FontFamily="OpenSansRegular"
+                                                    FontSize="12"
+                                                    Text="{Binding IsRegistered, StringFormat='{0}'}"
+                                                    TextColor="White" />
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Padding="20"
+                        Background="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Navigation Console"
+                                TextColor="#FFEFEFEF" />
+                            <Entry
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Placeholder="Route key"
+                                Text="{Binding TargetRoute}" />
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Column="0"
+                                    Command="{Binding NavigateCommand}"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Text="Navigate" />
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{Binding PopStackCommand}"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Text="GoBack" />
+                            </Grid>
+                            <Label
+                                FontAttributes="Italic"
+                                FontFamily="OpenSansRegular"
+                                FontSize="14"
+                                Text="{Binding LastNavigationResult}"
+                                TextColor="#FF111111" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="16"
+                                Text="Navigation Stack"
+                                TextColor="#FFEFEFEF" />
+                            <CollectionView
+                                HeightRequest="100"
+                                ItemsSource="{Binding NavigationStack}"
+                                SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Padding="6"
+                                            BackgroundColor="#e2e8f0"
+                                            StrokeThickness="0">
+                                            <Label
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding .}"
+                                                TextColor="#0f172a" />
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="16"
+                                Text="Event Log"
+                                TextColor="#FFEFEFEF" />
+                            <CollectionView
+                                HeightRequest="120"
+                                ItemsSource="{Binding NavigationEvents}"
+                                SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:NavigationEventRow">
+                                        <Grid Padding="0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Attempt, StringFormat='#{0}'}"
+                                                TextColor="#FF111111" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Route}"
+                                                TextColor="#FF111111" />
+                                            <Label
+                                                Grid.Column="2"
+                                                FontAttributes="Italic"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding EventName}"
+                                                TextColor="#FF111111" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

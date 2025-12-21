@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XAMLDebuggingTechniques.Views.DebugOverlayDemoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:XAMLDebuggingTechniques.ViewModels"
+    x:Name="PageRoot"
+    Title="{Binding Title}"
+    Padding="0,0,0,0"
+    x:DataType="viewmodels:DebugOverlayDemoPageViewModel"
+    BackgroundColor="#FF444444">
+
+    <Grid
+        x:Name="LayoutRoot"
+        Margin="0,0,0,0"
+        Padding="0,0,0,0">
+        <Grid
+            x:Name="TopBarRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0" />
+
+        <Grid
+            x:Name="ContentRoot"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0">
+            <ScrollView Margin="0,0,0,0" Padding="0,0,0,0">
+                <VerticalStackLayout
+                    Margin="0,0,0,0"
+                    Padding="16,24"
+                    Spacing="18">
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}"
+                        TextColor="#AAAAAA" />
+                    <Label
+                        FontFamily="OpenSansRegular"
+                        FontSize="18"
+                        HorizontalTextAlignment="Center"
+                        Text="Overlay binding chips over the regular UI so you can see the currents without setting a breakpoint."
+                        TextColor="#A3A1E5" />
+
+                    <Grid>
+                        <Border
+                            Padding="20"
+                            Background="#33f8fafc"
+                            Stroke="#A5A3Fb"
+                            StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="18" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="12">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="20"
+                                    Text="Session Telemetry"
+                                    TextColor="#FFEFEFEF" />
+                                <Entry
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Placeholder="Surfer name"
+                                    Text="{Binding Telemetry.SurferName}" />
+                                <Slider
+                                    Maximum="20"
+                                    Minimum="0"
+                                    Value="{Binding Telemetry.WaveHeight}" />
+                                <Label
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="14"
+                                    Text="{Binding Telemetry.WaveHeight, StringFormat='Wave Height: {0:F1} ft'}"
+                                    TextColor="#FF111111" />
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="Clean face?"
+                                        TextColor="#FF111111" />
+                                    <Switch Grid.Column="1" IsToggled="{Binding Telemetry.IsClean}" />
+                                </Grid>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button
+                                        Command="{Binding CaptureSnapshotCommand}"
+                                        FontFamily="OpenSansRegular"
+                                        FontSize="14"
+                                        Text="Capture Snapshot" />
+                                    <HorizontalStackLayout
+                                        Grid.Column="1"
+                                        Spacing="6"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            FontFamily="OpenSansRegular"
+                                            FontSize="14"
+                                            Text="Show HUD"
+                                            TextColor="#FF111111" />
+                                        <Switch IsToggled="{Binding IsHudVisible}" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <CollectionView
+                            Margin="400,8,8,0"
+                            HorizontalOptions="End"
+                            InputTransparent="True"
+                            IsVisible="{Binding IsHudVisible}"
+                            ItemsSource="{Binding BindingChips}"
+                            Opacity=".4"
+                            SelectionMode="None"
+                            VerticalOptions="Fill"
+                            ZIndex="1">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:BindingChip">
+                                    <Border
+                                        Margin="6"
+                                        Padding="10"
+                                        BackgroundColor="#0ea5e9"
+                                        StrokeThickness="0">
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Path}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Value}"
+                                                TextColor="White" />
+                                            <Label
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="10"
+                                                Text="{Binding Timestamp, StringFormat='{0:HH:mm:ss}'}"
+                                                TextColor="#bae6fd" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+
+                    <Border
+                        Padding="16"
+                        BackgroundColor="#33f8fafc"
+                        Stroke="#A5A3Fb"
+                        StrokeThickness="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontAttributes="Bold"
+                                FontFamily="OpenSansRegular"
+                                FontSize="20"
+                                Text="Snapshots"
+                                TextColor="#FFEFEFEF" />
+                            <CollectionView ItemsSource="{Binding Snapshots}" SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewmodels:BindingSnapshot">
+                                        <Grid Padding="0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Timestamp, StringFormat='{0:HH:mm:ss}'}"
+                                                TextColor="#FF111111" />
+                                            <Label
+                                                Grid.Column="1"
+                                                FontFamily="OpenSansRegular"
+                                                FontSize="14"
+                                                Text="{Binding Description}"
+                                                TextColor="#FF111111" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

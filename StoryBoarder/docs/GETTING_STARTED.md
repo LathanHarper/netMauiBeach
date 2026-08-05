@@ -1,44 +1,79 @@
 # Getting started with StoryBoarder
 
-StoryBoarder Tow-In is currently a private preview. This page describes the
-shape of the authoring experience while publishing the runtime dependency used
-by generated playback.
+StoryBoarder Tow-In `0.4.1` is a free public preview for Visual Studio 2026.
+The extension captures motion in the IDE; the separate
+`StoryBoarder.Motion` `0.4.0-preview.2` package runs the generated playback in
+your .NET MAUI app.
 
 ## Before you paddle out
 
-Private-preview participants receive the tested VSIX, its release-specific
-setup guide, and supported-version notes directly from the project.
+Have these ready:
 
-The playback runtime is public on NuGet.org:
+- Visual Studio 2026 Stable or Insiders on amd64, version 18.0 or newer
+- .NET 10 and the .NET MAUI 10 workload
+- A .NET MAUI XAML view you can edit and run with Hot Reload
+- A commit or backup of that view before StoryBoarder edits it
+
+Install
+[`StoryBoarder Tow-In` 0.4.1](https://marketplace.visualstudio.com/items?itemName=CodeCrafty.StoryBoarder)
+from the Visual Studio Marketplace. You can also open
+**Extensions → Manage Extensions**, search for **StoryBoarder Tow-In**, install
+it, and restart Visual Studio when prompted.
+
+Add the public playback runtime to the MAUI app:
 
 ```powershell
 dotnet add YourApp.csproj package StoryBoarder.Motion `
   --version 0.4.0-preview.2
 ```
 
-For the authoring workflow, have a .NET MAUI solution with a XAML view you can edit and run. Choose a small, visible motion first—a label translating between two poses is the cleanest way to learn the deck.
+If the project explicitly pins its MAUI version, use Microsoft.Maui.Controls
+`10.0.90` or newer.
+
+## First launch: the courtesy gate
+
+The first time StoryBoarder opens for a Visual Studio profile, it asks
+**What's da Password?** Enter:
+
+```text
+1234
+```
+
+This is an invitational courtesy gate, not security or access control. The code
+is intentionally published here and can be discovered inside the VSIX.
+StoryBoarder records only that the current Visual Studio profile accepted the
+gate; it does not store or transmit the password. Stable, Insiders, and
+Experimental profiles keep separate settings, so each profile can ask once.
 
 ## Preview workflow
 
 1. Open the target XAML view in Visual Studio.
 2. Identify the element and property you intend to animate.
-3. Open the StoryBoarder Tow-In deck and select that target.
+3. Open **View → Other Windows → StoryBoarder Tow-In** and select that target.
 4. Set the first pose and claim its keyframe.
 5. Move to another time, set the next pose, and claim that keyframe.
-6. Save the playback definition using the preview guide.
+6. Save the playback definition.
 7. Run the app and inspect the complete motion—not only the endpoints.
 
-Start with one element and one property. Once its timing reads clearly, add another property or element and judge the coordinated result in the running app.
+StoryBoarder actions such as capture, shaping, key navigation, saving, and
+clearing can edit and save the active XAML document so Hot Reload can show the
+result. The extension does not mutate documents in the background.
 
-## What stays private today
+Start with one element and one property. A label translating between two poses
+is the cleanest first ride. Once its timing reads clearly, add another property
+or element and judge the coordinated result in the running app.
 
-The Tow-In VSIX, implementation source, tester scripts, and internal release
-process are not distributed through this public repository. The
-`StoryBoarder.Motion` runtime package is distributed through NuGet.org.
+## Public preview boundary
 
-When the Tow-In preview widens, this page will contain the authoritative Visual
-Studio prerequisites, extension installation steps, first-run walkthrough, and
-update path.
+The StoryBoarder Tow-In `0.4.1` VSIX is distributed through the Visual Studio
+Marketplace. The `StoryBoarder.Motion` `0.4.0-preview.2` runtime is distributed
+through NuGet.org.
+
+This repository remains the public home for documentation, media, licensing,
+and release guidance. The authoring extension's implementation source, internal
+tester scripts, and release process remain private. Public preview behavior and
+supported authoring surfaces can change as feedback shapes later versions;
+Visual Studio's extension manager supplies Marketplace updates.
 
 ## License
 

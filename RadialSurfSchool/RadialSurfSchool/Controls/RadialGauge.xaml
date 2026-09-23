@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:RadialSurfSchool.Controls"
+             x:Class="RadialSurfSchool.Controls.RadialGauge"
+             x:Name="Root" WidthRequest="260" HeightRequest="260"
+             HorizontalOptions="Center" VerticalOptions="Center">
+    <Grid>
+        <!-- Each child starts at the center of this one-cell Grid.
+             Move it up 98. Move its pivot down by the same distance:
+             AnchorY = 0.5 + 98 / 32 = 3.5625. Now every pivot is the dial center.
+             Rotation does all the placement work; no sine/cosine is needed. -->
+        <Grid BindableLayout.ItemsSource="{Binding Segments, Source={x:Reference Root}}"
+              InputTransparent="True">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="controls:RadialSegment">
+                    <Path Data="M 0,0 L 28,0 L 22,32 L 6,32 Z"
+                          WidthRequest="28" HeightRequest="32"
+                          HorizontalOptions="Center" VerticalOptions="Center"
+                          TranslationY="-98" AnchorX="0.5" AnchorY="3.5625"
+                          Rotation="{Binding Angle}" Fill="#D6E7DA" StrokeThickness="0">
+                        <Path.Triggers>
+                            <DataTrigger TargetType="Path" Binding="{Binding IsActive}" Value="True">
+                                <Setter Property="Fill" Value="#007F7B" />
+                            </DataTrigger>
+                        </Path.Triggers>
+                    </Path>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </Grid>
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
+                             Spacing="0" InputTransparent="True">
+            <Label AutomationId="GaugeValueLabel"
+                   Text="{Binding Value, Source={x:Reference Root}, StringFormat='{0:F0}%'}"
+                   FontSize="44" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+            <Label Text="wave energy" FontSize="13" TextColor="#526C68"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

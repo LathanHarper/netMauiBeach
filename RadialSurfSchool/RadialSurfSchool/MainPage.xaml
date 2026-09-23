@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:RadialSurfSchool.Controls"
+             x:Class="RadialSurfSchool.MainPage"
+             Title="Radial surf school" AutomationId="SurfSchoolPage"
+             BackgroundColor="#FFF9E9">
+    <ScrollView AutomationId="LessonScroll">
+        <VerticalStackLayout Padding="20,24" Spacing="16"
+                             MaximumWidthRequest="560" HorizontalOptions="Fill">
+            <Label Text=".NET MAUI BEACH" FontSize="12" CharacterSpacing="3"
+                   FontAttributes="Bold" TextColor="#007F7B" />
+            <Label Text="Radial surf school" FontSize="30" FontAttributes="Bold" />
+            <Label Text="One shape. One pivot. A whole new wave."
+                   FontSize="16" TextColor="#526C68" />
+            <Border BackgroundColor="#FFFFFF" Stroke="#E4E8D8" Padding="8"
+                    StrokeShape="RoundRectangle 24">
+                <controls:RadialGauge x:Name="Gauge" AutomationId="LessonGauge"
+                    Value="{Binding Value, Source={x:Reference ValueSlider}}"
+                    StartAngle="{Binding Value, Source={x:Reference StartSlider}}"
+                    SweepAngle="{Binding Value, Source={x:Reference SweepSlider}}" />
+            </Border>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Wave energy" FontAttributes="Bold" />
+                <Label Grid.Column="1" AutomationId="EnergyLabel"
+                       Text="{Binding Value, Source={x:Reference ValueSlider}, StringFormat='{0:F0}%'}" />
+            </Grid>
+            <Slider x:Name="ValueSlider" AutomationId="EnergySlider"
+                    Minimum="0" Maximum="100" Value="60"
+                    SemanticProperties.Description="Wave energy, percent" />
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Start angle" FontAttributes="Bold" />
+                <Label Grid.Column="1" AutomationId="StartAngleLabel"
+                       Text="{Binding Value, Source={x:Reference StartSlider}, StringFormat='{0:F0}°'}" />
+            </Grid>
+            <Slider x:Name="StartSlider" AutomationId="StartAngleSlider"
+                    Minimum="-180" Maximum="180" Value="-120"
+                    SemanticProperties.Description="Start angle, degrees" />
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Sweep" FontAttributes="Bold" />
+                <Label Grid.Column="1" AutomationId="SweepAngleLabel"
+                       Text="{Binding Value, Source={x:Reference SweepSlider}, StringFormat='{0:F0}°'}" />
+            </Grid>
+            <Slider x:Name="SweepSlider" AutomationId="SweepAngleSlider"
+                    Minimum="-360" Maximum="360" Value="240"
+                    SemanticProperties.Description="Sweep angle, degrees" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <Button x:Name="RideButton" AutomationId="RideWaveButton"
+                        Text="Ride a wave" Clicked="OnRideWaveClicked" />
+                <Button Grid.Column="1" AutomationId="ResetLessonButton"
+                        Text="Reset" Clicked="OnResetClicked"
+                        BackgroundColor="#E3ECE0" TextColor="#164D4D" />
+            </Grid>
+            <Label Text="Start at 12 o'clock. Positive angles travel clockwise; negative sweeps turn back."
+                   FontSize="13" TextColor="#526C68" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
